@@ -1,12 +1,3 @@
-# MyJob
-
-This repository contains a visual representation of the Service Assurance Manager (SAM) architecture.
-The original diagram is available as an HTML page (`smarts_architecture.html`).
-A text-based Mermaid version is provided in `smarts_architecture.mmd`.
-
-To render the Mermaid diagram in Markdown, embed the contents of `smarts_architecture.mmd` like so:
-
-```mermaid
 flowchart LR
   subgraph OnPrem["HiG Data Center"]
     higmx["HIGMX Mail Relay"]
@@ -61,4 +52,3 @@ flowchart LR
   network_monitor --> sam2
   serviceNow --> sam1
   splunk --> sam1
-```
