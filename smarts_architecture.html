@@ -222,15 +222,6 @@
             left: 200px;
         }
         
-        .dr-sam {
-            top: 50px;
-            left: 20px;
-        }
-        
-        .dr-ip {
-            top: 130px;
-            left: 20px;
-        }
         
         .efs {
             position: absolute;
@@ -282,6 +273,23 @@
             left: 100px;
             width: 180px;
             height: 190px;
+        }
+
+        .sg-dr {
+            top: 30px;
+            left: 10px;
+            width: 80px;
+            height: 190px;
+        }
+
+        .dr-sam-server {
+            top: 50px;
+            left: 20px;
+        }
+
+        .dr-ip-server {
+            top: 130px;
+            left: 20px;
         }
         
         .component {
@@ -499,10 +507,10 @@
                                 <div class="region-label" style="color: #dc3545; font-size: 9px;">Security Group</div>
                                 <div class="port-info port-8770">TCP:8770</div>
                                 <div class="port-info port-9002">TCP:9002</div>
+                                <div class="ec2 sam-server-1">SAM Server</div>
+                                <div class="ec2 ip-server-1">IP Server</div>
                             </div>
-                            
-                            <div class="ec2 sam-server-1">SAM Server</div>
-                            <div class="ec2 ip-server-1">IP Server</div>
+
                             <div class="efs efs-mount-1">EFS Mount</div>
                         </div>
                     </div>
@@ -518,10 +526,10 @@
                                 <div class="region-label" style="color: #dc3545; font-size: 9px;">Security Group</div>
                                 <div class="port-info port-8770">TCP:8770</div>
                                 <div class="port-info port-9002">TCP:9002</div>
+                                <div class="ec2 sam-server-2">SAM Server</div>
+                                <div class="ec2 ip-server-2">IP Server</div>
                             </div>
-                            
-                            <div class="ec2 sam-server-2">SAM Server</div>
-                            <div class="ec2 ip-server-2">IP Server</div>
+
                             <div class="efs efs-mount-2">EFS Mount</div>
                         </div>
                     </div>
@@ -542,15 +550,27 @@
                         <div class="region-label" style="color: #20c997; font-size: 10px;">AZ-1</div>
                         <div class="subnet dr-subnet">
                             <div class="region-label" style="color: #6f42c1; font-size: 9px;">Private</div>
-                            <div class="ec2 dr-sam">SAM</div>
+                            <div class="security-group sg-dr">
+                                <div class="region-label" style="color: #dc3545; font-size: 9px;">Security Group</div>
+                                <div class="port-info port-8770">TCP:8770</div>
+                                <div class="port-info port-9002">TCP:9002</div>
+                                <div class="ec2 dr-sam-server">SAM Server</div>
+                                <div class="ec2 dr-ip-server">IP Server</div>
+                            </div>
                         </div>
                     </div>
-                    
+
                     <div class="az dr-az2">
                         <div class="region-label" style="color: #20c997; font-size: 10px;">AZ-2</div>
                         <div class="subnet dr-subnet">
                             <div class="region-label" style="color: #6f42c1; font-size: 9px;">Private</div>
-                            <div class="ec2 dr-ip">IP</div>
+                            <div class="security-group sg-dr">
+                                <div class="region-label" style="color: #dc3545; font-size: 9px;">Security Group</div>
+                                <div class="port-info port-8770">TCP:8770</div>
+                                <div class="port-info port-9002">TCP:9002</div>
+                                <div class="ec2 dr-sam-server">SAM Server</div>
+                                <div class="ec2 dr-ip-server">IP Server</div>
+                            </div>
                         </div>
                     </div>
                 </div>
