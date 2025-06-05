@@ -258,6 +258,32 @@
             top: 250px;
             left: 20px;
         }
+
+        /* Writable directory shared between AZs */
+        .writable-dir {
+            position: absolute;
+            width: 120px;
+            height: 40px;
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 10px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+        }
+
+        .primary-writable {
+            top: 200px;
+            left: 355px;
+        }
+
+        .dr-writable {
+            top: 200px;
+            left: 165px;
+        }
         
         .security-group {
             position: absolute;
@@ -366,6 +392,35 @@
             border-left: 8px solid #007acc;
             border-top: 4px solid transparent;
             border-bottom: 4px solid transparent;
+        }
+
+        .vertical-conn {
+            transform: rotate(90deg);
+            transform-origin: top left;
+        }
+
+        .conn-az1 {
+            top: 110px;
+            left: 40px;
+            width: 20px;
+        }
+
+        .conn-az2 {
+            top: 110px;
+            left: 40px;
+            width: 20px;
+        }
+
+        .conn-dr-az1 {
+            top: 110px;
+            left: 40px;
+            width: 20px;
+        }
+
+        .conn-dr-az2 {
+            top: 110px;
+            left: 40px;
+            width: 20px;
         }
         
         .conn-1 {
@@ -515,6 +570,7 @@
                                 <div class="port-info port-9002">TCP:9002</div>
                                 <div class="ec2 sam-server-1">SAM Server</div>
                                 <div class="ec2 ip-server-1">IP Server</div>
+                                <div class="connection conn-az1 vertical-conn"></div>
                             </div>
 
                             <div class="efs efs-mount-1">EFS MOUNT TARGET</div>
@@ -534,12 +590,15 @@
                                 <div class="port-info port-9002">TCP:9002</div>
                                 <div class="ec2 sam-server-2">SAM Server</div>
                                 <div class="ec2 ip-server-2">IP Server</div>
+                                <div class="connection conn-az2 vertical-conn"></div>
                             </div>
 
                             <div class="efs efs-mount-2">EFS MOUNT TARGET</div>
                         </div>
                     </div>
-                    
+
+                    <div class="writable-dir primary-writable">Writable Dir</div>
+
                 </div>
             </div>
             
@@ -560,6 +619,7 @@
                                 <div class="port-info port-9002">TCP:9002</div>
                                 <div class="ec2 dr-sam-server">SAM Server</div>
                                 <div class="ec2 dr-ip-server">IP Server</div>
+                                <div class="connection conn-dr-az1 vertical-conn"></div>
                             </div>
                             <div class="efs efs-dr-mount-1">EFS MOUNT TARGET</div>
                         </div>
@@ -575,12 +635,15 @@
                                 <div class="port-info port-9002">TCP:9002</div>
                                 <div class="ec2 dr-sam-server">SAM Server</div>
                                 <div class="ec2 dr-ip-server">IP Server</div>
+                                <div class="connection conn-dr-az2 vertical-conn"></div>
                             </div>
                             <div class="efs efs-dr-mount-2">EFS MOUNT TARGET</div>
                         </div>
                     </div>
+
+                    <div class="writable-dir dr-writable">Writable Dir</div>
                 </div>
-                
+
                 <div class="backup">AWS Backup Vault</div>
             </div>
             
