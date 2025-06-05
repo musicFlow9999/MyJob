@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAM Architecture Diagram</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .diagram-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 1400px;
+            margin: 0 auto;
+            overflow-x: auto;
+        }
+        
+        .title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .architecture-diagram {
+            position: relative;
+            width: 100%;
+            min-height: 900px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .region {
+            position: absolute;
+            border: 3px solid #007acc;
+            border-radius: 15px;
+            background: rgba(0, 122, 204, 0.05);
+            padding: 15px;
+        }
+        
+        .primary-region {
+            top: 150px;
+            left: 50px;
+            width: 800px;
+            height: 500px;
+        }
+        
+        .dr-region {
+            top: 150px;
+            right: 50px;
+            width: 400px;
+            height: 500px;
+        }
+        
+        .on-premises {
+            top: 20px;
+            left: 50px;
+            width: 350px;
+            height: 100px;
+            border-color: #28a745;
+            background: rgba(40, 167, 69, 0.05);
+        }
+        
+        .external-services {
+            top: 20px;
+            right: 50px;
+            width: 300px;
+            height: 100px;
+            border-color: #fd7e14;
+            background: rgba(253, 126, 20, 0.05);
+        }
+        
+        .region-label {
+            position: absolute;
+            top: -15px;
+            left: 15px;
+            background: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            color: #007acc;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .vpc {
+            position: absolute;
+            border: 2px dashed #6c757d;
+            border-radius: 10px;
+            background: rgba(108, 117, 125, 0.05);
+            padding: 10px;
+        }
+        
+        .primary-vpc {
+            top: 40px;
+            left: 20px;
+            width: 750px;
+            height: 430px;
+        }
+        
+        .dr-vpc {
+            top: 40px;
+            left: 20px;
+            width: 350px;
+            height: 430px;
+        }
+        
+        .az {
+            position: absolute;
+            border: 2px solid #20c997;
+            border-radius: 8px;
+            background: rgba(32, 201, 151, 0.05);
+            padding: 10px;
+        }
+        
+        .az1 {
+            top: 40px;
+            left: 20px;
+            width: 340px;
+            height: 350px;
+        }
+        
+        .az2 {
+            top: 40px;
+            right: 20px;
+            width: 340px;
+            height: 350px;
+        }
+        
+        .dr-az1, .dr-az2 {
+            top: 40px;
+            left: 20px;
+            width: 140px;
+            height: 350px;
+        }
+        
+        .dr-az2 {
+            left: 180px;
+        }
+        
+        .subnet {
+            position: absolute;
+            border: 1px solid #6f42c1;
+            border-radius: 5px;
+            background: rgba(111, 66, 193, 0.05);
+            padding: 8px;
+        }
+        
+        .private-subnet-1 {
+            top: 30px;
+            left: 10px;
+            width: 300px;
+            height: 280px;
+        }
+        
+        .private-subnet-2 {
+            top: 30px;
+            left: 10px;
+            width: 300px;
+            height: 280px;
+        }
+        
+        .dr-subnet {
+            top: 30px;
+            left: 10px;
+            width: 100px;
+            height: 280px;
+        }
+        
+        .ec2 {
+            position: absolute;
+            width: 80px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff9a56 0%, #ff6b35 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .ec2:hover {
+            transform: translateY(-2px);
+        }
+        
+        .sam-server-1 {
+            top: 50px;
+            left: 20px;
+        }
+        
+        .ip-server-1 {
+            top: 130px;
+            left: 20px;
+        }
+        
+        .sam-server-2 {
+            top: 50px;
+            left: 200px;
+        }
+        
+        .ip-server-2 {
+            top: 130px;
+            left: 200px;
+        }
+        
+        .dr-sam {
+            top: 50px;
+            left: 20px;
+        }
+        
+        .dr-ip {
+            top: 130px;
+            left: 20px;
+        }
+        
+        .efs {
+            position: absolute;
+            width: 60px;
+            height: 40px;
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 10px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+        }
+        
+        .efs-mount-1 {
+            top: 250px;
+            left: 40px;
+        }
+        
+        .efs-mount-2 {
+            top: 250px;
+            left: 220px;
+        }
+        
+        .efs-central {
+            top: 320px;
+            left: 130px;
+        }
+        
+        .security-group {
+            position: absolute;
+            border: 2px solid #dc3545;
+            border-radius: 5px;
+            background: rgba(220, 53, 69, 0.05);
+            padding: 5px;
+        }
+        
+        .sg-1 {
+            top: 30px;
+            left: 100px;
+            width: 180px;
+            height: 190px;
+        }
+        
+        .sg-2 {
+            top: 30px;
+            left: 100px;
+            width: 180px;
+            height: 190px;
+        }
+        
+        .component {
+            position: absolute;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .component:hover {
+            transform: scale(1.05);
+        }
+        
+        .servicenow {
+            top: 50px;
+            left: 20px;
+            background: #00b4d8;
+            color: white;
+        }
+        
+        .splunk {
+            top: 50px;
+            left: 120px;
+            background: #ff6b35;
+            color: white;
+        }
+        
+        .higmx {
+            top: 50px;
+            left: 20px;
+            background: #28a745;
+            color: white;
+        }
+        
+        .network-monitor {
+            top: 50px;
+            left: 120px;
+            background: #6f42c1;
+            color: white;
+        }
+        
+        .hig-datacenter {
+            top: 50px;
+            left: 220px;
+            background: #20c997;
+            color: white;
+        }
+        
+        .connection {
+            position: absolute;
+            height: 2px;
+            background: #007acc;
+            z-index: 1;
+        }
+        
+        .connection::after {
+            content: '';
+            position: absolute;
+            right: -6px;
+            top: -3px;
+            width: 0;
+            height: 0;
+            border-left: 8px solid #007acc;
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid transparent;
+        }
+        
+        .conn-1 {
+            top: 140px;
+            left: 400px;
+            width: 150px;
+        }
+        
+        .backup {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            width: 100px;
+            height: 40px;
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        
+        .legend {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .legend-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #495057;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+        
+        .legend-color {
+            width: 15px;
+            height: 15px;
+            border-radius: 3px;
+            margin-right: 8px;
+        }
+        
+        .port-info {
+            position: absolute;
+            font-size: 10px;
+            color: #6c757d;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        
+        .port-8770 {
+            top: 35px;
+            left: 120px;
+        }
+        
+        .port-9002 {
+            top: 35px;
+            left: 220px;
+        }
+        
+        .specs {
+            position: absolute;
+            top: 700px;
+            left: 50px;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            width: 600px;
+        }
+        
+        .specs-title {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #495057;
+        }
+        
+        .specs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .spec-item {
+            font-size: 12px;
+            color: #6c757d;
+        }
+        
+        .spec-label {
+            font-weight: bold;
+            color: #495057;
+        }
+    </style>
+</head>
+<body>
+    <div class="diagram-container">
+        <div class="title">Service Assurance Manager (SAM) - AWS Architecture</div>
+        
+        <div class="architecture-diagram">
+            <!-- On-Premises Section -->
+            <div class="region on-premises">
+                <div class="region-label" style="color: #28a745;">HiG Data Center</div>
+                <div class="component higmx">HIGMX Mail Relay</div>
+                <div class="component network-monitor">Network Monitor</div>
+                <div class="component hig-datacenter">Network Components</div>
+            </div>
+            
+            <!-- External Services -->
+            <div class="region external-services">
+                <div class="region-label" style="color: #fd7e14;">External Services</div>
+                <div class="component servicenow">ServiceNow</div>
+                <div class="component splunk">Splunk</div>
+            </div>
+            
+            <!-- Primary Region (us-east-1) -->
+            <div class="region primary-region">
+                <div class="region-label">AWS Region (Primary: us-east-1)</div>
+                
+                <div class="vpc primary-vpc">
+                    <div class="region-label" style="color: #6c757d; font-size: 12px;">VPC - Private</div>
+                    
+                    <!-- Availability Zone 1 -->
+                    <div class="az az1">
+                        <div class="region-label" style="color: #20c997; font-size: 10px;">AZ-1</div>
+                        
+                        <div class="subnet private-subnet-1">
+                            <div class="region-label" style="color: #6f42c1; font-size: 10px;">Private Subnet</div>
+                            
+                            <div class="security-group sg-1">
+                                <div class="region-label" style="color: #dc3545; font-size: 9px;">Security Group</div>
+                                <div class="port-info port-8770">TCP:8770</div>
+                                <div class="port-info port-9002">TCP:9002</div>
+                            </div>
+                            
+                            <div class="ec2 sam-server-1">SAM Server</div>
+                            <div class="ec2 ip-server-1">IP Server</div>
+                            <div class="efs efs-mount-1">EFS Mount</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Availability Zone 2 -->
+                    <div class="az az2">
+                        <div class="region-label" style="color: #20c997; font-size: 10px;">AZ-2</div>
+                        
+                        <div class="subnet private-subnet-2">
+                            <div class="region-label" style="color: #6f42c1; font-size: 10px;">Private Subnet</div>
+                            
+                            <div class="security-group sg-2">
+                                <div class="region-label" style="color: #dc3545; font-size: 9px;">Security Group</div>
+                                <div class="port-info port-8770">TCP:8770</div>
+                                <div class="port-info port-9002">TCP:9002</div>
+                            </div>
+                            
+                            <div class="ec2 sam-server-2">SAM Server</div>
+                            <div class="ec2 ip-server-2">IP Server</div>
+                            <div class="efs efs-mount-2">EFS Mount</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Central Components -->
+                    <div class="efs efs-central">EFS Target</div>
+                </div>
+            </div>
+            
+            <!-- DR Region (us-east-2) -->
+            <div class="region dr-region">
+                <div class="region-label">DR Region (us-east-2) Active-Active</div>
+                
+                <div class="vpc dr-vpc">
+                    <div class="region-label" style="color: #6c757d; font-size: 12px;">VPC - DR</div>
+                    
+                    <div class="az dr-az1">
+                        <div class="region-label" style="color: #20c997; font-size: 10px;">AZ-1</div>
+                        <div class="subnet dr-subnet">
+                            <div class="region-label" style="color: #6f42c1; font-size: 9px;">Private</div>
+                            <div class="ec2 dr-sam">SAM</div>
+                        </div>
+                    </div>
+                    
+                    <div class="az dr-az2">
+                        <div class="region-label" style="color: #20c997; font-size: 10px;">AZ-2</div>
+                        <div class="subnet dr-subnet">
+                            <div class="region-label" style="color: #6f42c1; font-size: 9px;">Private</div>
+                            <div class="ec2 dr-ip">IP</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="backup">AWS Backup Vault</div>
+            </div>
+            
+            <!-- Connections -->
+            <div class="connection conn-1"></div>
+            
+            <!-- Legend -->
+            <div class="legend">
+                <div class="legend-title">Components</div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(135deg, #ff9a56 0%, #ff6b35 100%);"></div>
+                    EC2 Instance
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);"></div>
+                    EFS Storage
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #007acc;"></div>
+                    VPC/Region
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #dc3545;"></div>
+                    Security Group
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #20c997;"></div>
+                    Availability Zone
+                </div>
+            </div>
+        </div>
+        
+        <!-- Technical Specifications -->
+        <div class="specs">
+            <div class="specs-title">Technical Specifications</div>
+            <div class="specs-grid">
+                <div class="spec-item">
+                    <div class="spec-label">SAM Servers:</div>
+                    2x SAM + 2x IP Servers
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">Instance Type:</div>
+                    c7i.2xlarge (nextGen EC2)
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">Operating System:</div>
+                    RHEL 8.0
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">vCPUs:</div>
+                    8 cores per instance
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">Memory:</div>
+                    16 GB RAM per instance
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">Storage:</div>
+                    75GB Root + 500GB EBS per instance
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">Network:</div>
+                    TCP/8770 (SAM), TCP/9002 (Traps)
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">Recovery Objectives:</div>
+                    RTO: 0-2hrs, RPO: 0-2hrs
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">High Availability:</div>
+                    Cross-AZ deployment
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">Backup:</div>
+                    EFS Replication + AWS Backup
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">Users:</div>
+                    ENOC, AD Integrated, ADMIN
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Add hover effects and tooltips
+        document.querySelectorAll('.ec2').forEach(element => {
+            element.addEventListener('mouseenter', function() {
+                this.style.boxShadow = '0 8px 16px rgba(0,0,0,0.3)';
+            });
+            element.addEventListener('mouseleave', function() {
+                this.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
+            });
+        });
+        
+        document.querySelectorAll('.component').forEach(element => {
+            element.addEventListener('click', function() {
+                const name = this.textContent;
+                alert(`Component: ${name}\nIntegration with SAM system for monitoring and service assurance.`);
+            });
+        });
+        
+        // Add network flow animations
+        setInterval(() => {
+            document.querySelectorAll('.connection').forEach(conn => {
+                conn.style.opacity = '0.3';
+                setTimeout(() => {
+                    conn.style.opacity = '1';
+                }, 500);
+            });
+        }, 2000);
+    </script>
+</body>
+</html>
