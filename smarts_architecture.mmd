@@ -16,14 +16,14 @@ flowchart LR
         sg1["Security Group"]
         sg1 --> sam1["SAM Server"]
         sg1 --> ip1["IP Server"]
-        sam1 --> efs1["EFS Mount"]
+        sam1 --> efs1["EFS MOUNT TARGET"]
         ip1 --> efs1
       end
       subgraph AZ2["AZ-2"]
         sg2["Security Group"]
         sg2 --> sam2["SAM Server"]
         sg2 --> ip2["IP Server"]
-        sam2 --> efs2["EFS Mount"]
+        sam2 --> efs2["EFS MOUNT TARGET"]
         ip2 --> efs2
       end
       efs_central["EFS Target"]
