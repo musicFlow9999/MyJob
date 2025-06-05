@@ -2,63 +2,11 @@
 
 This repository contains a visual representation of the Service Assurance Manager (SAM) architecture.
 The original diagram is available as an HTML page (`smarts_architecture.html`).
+
 A text-based Mermaid version is provided in `smarts_architecture.mmd`.
 
-To render the Mermaid diagram in Markdown, embed the contents of `smarts_architecture.mmd` like so:
+To render the Mermaid diagram, open `smarts_architecture.mmd` in a Mermaid preview extension or compatible tool.
 
-```mermaid
-flowchart LR
-  subgraph OnPrem["HiG Data Center"]
-    higmx["HIGMX Mail Relay"]
-    network_monitor["Network Monitor"]
-    network_components["Network Components"]
-  end
+---
 
-  subgraph ExternalServices["External Services"]
-    serviceNow["ServiceNow"]
-    splunk["Splunk"]
-  end
-
-  subgraph PrimaryRegion["AWS Region (Primary: us-east-1)"]
-    subgraph VPCPrivate["VPC - Private"]
-      subgraph AZ1["AZ-1"]
-        sg1["Security Group"]
-        sg1 --> sam1["SAM Server"]
-        sg1 --> ip1["IP Server"]
-        sam1 --> efs1["EFS MOUNT TARGET"]
-        ip1 --> efs1
-      end
-      subgraph AZ2["AZ-2"]
-        sg2["Security Group"]
-        sg2 --> sam2["SAM Server"]
-        sg2 --> ip2["IP Server"]
-        sam2 --> efs2["EFS MOUNT TARGET"]
-        ip2 --> efs2
-      end
-      efs_central["EFS Target"]
-    end
-  end
-
-  subgraph DRRegion["DR Region (us-east-2) Active-Active"]
-    subgraph DRVPC["VPC - DR"]
-      subgraph DRAZ1["AZ-1"]
-        sg_dr1["Security Group"]
-        sg_dr1 --> dr_sam1["SAM Server"]
-        sg_dr1 --> dr_ip1["IP Server"]
-      end
-      subgraph DRAZ2["AZ-2"]
-        sg_dr2["Security Group"]
-        sg_dr2 --> dr_sam2["SAM Server"]
-        sg_dr2 --> dr_ip2["IP Server"]
-      end
-    end
-    backup["AWS Backup Vault"]
-  end
-
-  higmx --> sam1
-  higmx --> sam2
-  network_monitor --> sam1
-  network_monitor --> sam2
-  serviceNow --> sam1
-  splunk --> sam1
-```
+For more details, see the HTML diagram or the Mermaid file directly.
